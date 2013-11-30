@@ -1,0 +1,176 @@
+<html>
+<head>
+    <title>so</title>
+</head>
+<script src="js/mousetrap.js"></script>
+    <script>
+    document.addEventListener("keydown", function(oEvent) {
+        if (oEvent.keyCode == 65 && oEvent.altKey)
+            oEvent.preventDefault();
+    }, false)
+
+    document.addEventListener("keydown", function(oEvent) {
+        if (oEvent.keyCode == 90 && oEvent.altKey)
+            oEvent.preventDefault();
+    }, false)
+
+    document.addEventListener("keydown", function(oEvent) {
+        if (oEvent.keyCode == 65 && oEvent.altKey && oEvent.shiftKey)
+            oEvent.preventDefault();
+    }, false)
+
+    document.addEventListener("keydown", function(oEvent) {
+        if (oEvent.keyCode == 90 && oEvent.altKey && oEvent.shiftKey)
+            oEvent.preventDefault();
+    }, false)
+
+    document.addEventListener("keydown", function(oEvent) {
+        if (oEvent.keyCode == 87 && oEvent.altKey)
+            oEvent.preventDefault();
+    }, false)
+
+    function beginning() {
+        var inp = document.getElementById('campo');
+        if (inp.createTextRange) {
+            var part = inp.createTextRange();
+                part.move("character", 0);
+                part.select();
+        }else if (inp.setSelectionRange){
+            inp.setSelectionRange(0, 0);}
+            inp.focus();
+    }
+
+    function toTheEnd() {
+        var inp = document.getElementById('campo');
+        if (inp.createTextRange) {
+            var part = inp.createTextRange();
+            part.move("character", 0);
+            part.select();
+            }else if (inp.setSelectionRange){
+                inp.setSelectionRange(9999, 9999);}
+            inp.focus();
+    }
+    function beginningShift() {
+        var inp = document.getElementById('campo');
+        var pos = inp.value.slice(0, inp.selectionStart).length;
+        if (inp.createTextRange) {
+            var part = inp.createTextRange();
+                part.move("character", 0);
+                part.select();
+        }else if (inp.setSelectionRange){
+            inp.setSelectionRange(0, pos);}
+            inp.focus();
+    }
+
+    function endShift() {
+        var inp = document.getElementById('campo');
+        var pos = inp.value.slice(0, inp.selectionStart).length;
+        if (inp.createTextRange) {
+            var part = inp.createTextRange();
+            part.move("character", 0);
+            part.select();
+            }else if (inp.setSelectionRange){
+                inp.setSelectionRange(pos, 9999);}
+            inp.focus();
+    }
+
+    function rmWordBefore() {
+        var inp = document.getElementById('campo');
+        var pos = inp.value.slice(0, inp.selectionStart).length;
+        var i = pos;
+
+        <!-- where the previous word starts? -->
+        if (i > 0) { i--; }
+        while (i > 0) {
+            if (inp.value[i] == " "){
+                break;
+            } else {
+                --i;
+            }
+        }
+        var final = i;
+
+        <!-- where the previous word begins? -->
+        if (i > 0) { i--; }
+        while (i > 0) {
+            if (inp.value[i] == " "){
+                break;
+            } else {
+                --i;
+            }
+        }
+        var start = i;
+
+        var content = inp.value;
+        strBeginning = content.substring(0,start);
+        strRest = content.substring(final);
+        strFinal = strBeginning + strRest;
+        inp.value = strFinal;
+
+        if (inp.createTextRange) {
+            var part = inp.createTextRange();
+                part.move("character", 0);
+                part.select();
+        }else if (inp.setSelectionRange){
+            inp.setSelectionRange(start, start);}
+            inp.focus();
+    }
+
+    function rmWord2theLeft() {
+        var inp = document.getElementById('campo');
+        var pos = inp.value.slice(0, inp.selectionStart).length;
+        var i = pos;
+        <!-- where the previous word ends? -->
+        var final = i;
+
+        <!-- where the previous word begins? -->
+        if (i > 0) { i--; }
+        while (i > 0) {
+            if (inp.value[i] == " "){
+                break;
+            } else {
+                --i;
+            }
+        }
+        var start = i;
+
+        var content = inp.value;
+        strBeginning = content.substring(0,start);
+        strRest = content.substring(final);
+        strFinal = strBeginning + strRest;
+        inp.value = strFinal;
+
+        if (inp.createTextRange) {
+            var part = inp.createTextRange();
+                part.move("character", 0);
+                part.select();
+        }else if (inp.setSelectionRange){
+            inp.setSelectionRange(start, start);}
+            inp.focus();
+    }
+
+    function checkForShortcuts() {
+        Mousetrap.bind(['alt+a'], function(e) {
+            beginning();
+        });
+        Mousetrap.bind(['alt+shift+a'], function(e) {
+            beginningShift();
+        });
+        Mousetrap.bind(['alt+z'], function(e) {
+            toTheEnd();
+        });
+        Mousetrap.bind(['alt+shift+z'], function(e) {
+            endShift();
+        });
+        Mousetrap.bind(['alt+shift+w'], function(e) {
+            rmWordBefore();
+        });
+        Mousetrap.bind(['alt+w'], function(e) {
+            rmWord2theLeft();
+        });
+    }
+    checkForShortcuts();
+    </script>
+    <!--   <input class="mousetrap" id="campo" value="Pressione alt+a para o inicio do campo" size=30 /> -->
+    <textarea class="mousetrap" id="campo" rows="30" cols="100" placeholder="Comece agora mesmo a testar sa funcionalidades! :)" autofocus>Browsed is free software, which means it respects your freedom. It's distributed under the terms of the GNU Affero General Public License.</textarea>
+</html>
